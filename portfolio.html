@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Portfolio - BizCore</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* Style Tambahan Khusus Sub-Page agar Jaraknya Pas */
+      .page-header {
+        background:
+          linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
+          url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80")
+            no-repeat center center/cover;
+        padding: 120px 0 60px 0;
+        color: var(--bg-white);
+        text-align: center;
+      }
+      .page-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+      .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar sticky">
+      <div class="container nav-container">
+        <a href="index.html" class="logo">Biz<span>Core.</span></a>
+        <nav class="nav-menu">
+          <a href="index.html#home" class="nav-link">Home</a>
+          <a href="index.html#about" class="nav-link">About</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="portfolio.html" class="nav-link active">Portfolio</a>
+          <a href="index.html#clients" class="nav-link">Clients</a>
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </nav>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <div class="container" data-aos="fade-down">
+        <h1>Portfolio Kami</h1>
+        <p>
+          <a
+            href="index.html"
+            style="color: var(--primary-color); text-decoration: none"
+            >Home</a
+          >
+          / Portfolio
+        </p>
+      </div>
+    </section>
+
+    <section class="portfolio-section section-padding">
+      <div class="container">
+        <div class="grid-3" id="portfolio-container">
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+            <img
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80"
+              alt="Project 1"
+            />
+            <div class="portfolio-overlay">
+              <h4>E-Commerce Platform</h4>
+              <p>Web Development</p>
+            </div>
+          </div>
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+            <img
+              src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=500&q=80"
+              alt="Project 2"
+            />
+            <div class="portfolio-overlay">
+              <h4>Brand Campaign</h4>
+              <p>Digital Marketing</p>
+            </div>
+          </div>
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="300">
+            <img
+              src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=500&q=80"
+              alt="Project 3"
+            />
+            <div class="portfolio-overlay">
+              <h4>Fintech Mobile App</h4>
+              <p>UI/UX Design</p>
+            </div>
+          </div>
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="100">
+            <img
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80"
+              alt="Project 4"
+            />
+            <div class="portfolio-overlay">
+              <h4>Dashboard Analytics</h4>
+              <p>Web Development</p>
+            </div>
+          </div>
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="200">
+            <img
+              src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=500&q=80"
+              alt="Project 5"
+            />
+            <div class="portfolio-overlay">
+              <h4>Corporate Rebranding</h4>
+              <p>Digital Marketing</p>
+            </div>
+          </div>
+          <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="300">
+            <img
+              src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=500&q=80"
+              alt="Project 6"
+            />
+            <div class="portfolio-overlay">
+              <h4>Crypto Wallet UI</h4>
+              <p>UI/UX Design</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container text-center">
+        <p>
+          &copy; 2026 BizCore. All Rights Reserved. Designed Minimally &
+          Professionally.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/function.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const container = document.getElementById("portfolio-container");
+
+        // 1. Tampilkan Loader dari function.js
+        if (container && typeof skeletonLoader === "function") {
+          container.innerHTML = skeletonLoader();
+        } else if (container) {
+          container.innerHTML = `<div class="text-center" style="grid-column: 1/-1; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Loading data...</div>`;
+        }
+
+        // 2. Ambil data dari CMS
+        if (typeof fetchDataFromCMS === "function") {
+          fetchDataFromCMS()
+            .then((data) => {
+              if (data && data.portfolio && data.portfolio.length > 0) {
+                renderAllPortfolio(data.portfolio);
+              } else {
+                container.innerHTML = `<p style="grid-column: span 3; text-align: center; color: #999;">Belum ada data portfolio.</p>`;
+              }
+            })
+            .catch((err) => {
+              console.error("Gagal memuat data portfolio:", err);
+              container.innerHTML = `<p style="grid-column: span 3; text-align: center; color: #dc2626;">Gagal memuat data portfolio.</p>`;
+            });
+        }
+      });
+
+      // 3. Fungsi Universal: GDrive Converter + Compress + Fallback Gambar Kosong
+      function cleanDriveImageUrl(url) {
+        // Fallback jika admin lupa isi link gambar di form portfolio
+        if (!url || url.toString().trim() === "") {
+          return "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80";
+        }
+
+        let urlStr = url.toString().trim();
+
+        // Convert Link Google Drive biasa ke Direct Download Link
+        if (urlStr.includes("drive.google.com")) {
+          let fileId = "";
+          if (urlStr.includes("/d/")) {
+            fileId = urlStr.split("/d/")[1].split("/")[0];
+          } else if (urlStr.includes("id=")) {
+            fileId = urlStr.split("id=")[1].split("&")[0];
+          }
+          if (fileId) {
+            return `https://docs.google.com/uc?export=download&id=${fileId}`;
+          }
+        }
+
+        // Auto Compress jika gambarnya dari Unsplash bawaan template
+        if (urlStr.includes("images.unsplash.com") && !urlStr.includes("q=")) {
+          return `${urlStr}&auto=format&fit=crop&w=500&q=80`;
+        }
+
+        return urlStr;
+      }
+
+      // 4. Fungsi Render Portfolio (Menyamping, Delay Dipercepat, Struktur Overlay Pas)
+      function renderAllPortfolio(portfolio) {
+        const container = document.getElementById("portfolio-container");
+        if (!container) return;
+
+        container.innerHTML = ""; // Hapus loader
+
+        portfolio.forEach((item, index) => {
+          // Delay dipercepat biar ga kelamaan (Kelipatan 50ms)
+          const delay = 50 + (index % 3) * 50;
+
+          // Ambil data dengan fallback nama alternatif kolom Google Sheet
+          const judul =
+            item.title ||
+            item.portfolio ||
+            item["Portfolio"] ||
+            "Untitled Project";
+          const kategori =
+            item.category ||
+            item.kategori ||
+            item["Kategori"] ||
+            "Web Development";
+
+          // Olah link gambar
+          const gambarRaw =
+            item.image ||
+            item["link gambar portfolio"] ||
+            item["Link Gambar Portfolio"];
+          const gambarFix = cleanDriveImageUrl(gambarRaw);
+
+          // Cetak struktur sesuai template HTML asli lu
+          const card = `
+                <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="${delay}">
+                    <img src="${gambarFix}" alt="${judul}">
+                    <div class="portfolio-overlay">
+                        <h4>${judul}</h4>
+                        <p>${kategori}</p>
+                    </div>
+                </div>
+            `;
+          container.insertAdjacentHTML("beforeend", card);
+        });
+
+        // Trigger ulang AOS biar animasi zoom-in nya aktif di item baru
+        if (typeof AOS !== "undefined") {
+          AOS.refresh();
+        }
+      }
+    </script>
+  </body>
+</html>
