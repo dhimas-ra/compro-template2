@@ -353,6 +353,11 @@ body {
     transform: scale(1.05);
 }
 
+/* Pasang ini di file CSS lu bang */
+.swal2-container {
+    z-index: 99999 !important;
+}
+
 /* --- PORTFOLIO SECTION --- */
 .portfolio-item {
     position: relative;

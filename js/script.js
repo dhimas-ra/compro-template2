@@ -80,138 +80,174 @@ function highlightStars(value) {
 const contactForm = document.getElementById("feedback-form");
 
 if (contactForm) {
-    let isSubmitting = false;
+  let isSubmitting = false;
 
-    contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // 1. Jika sedang proses kirim, blokir klik susulan
-        if (isSubmitting) return;
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        
-        // 2. Kunci tombol secara fisik dan logika
-        isSubmitting = true;
-        submitBtn.textContent = "Mengirim Pesan...";
-        submitBtn.disabled = true;
+    // 1. Jika sedang proses kirim, blokir klik susulan
+    if (isSubmitting) return;
 
-        const payload = {
-            type: "contact",
-            name: document.getElementById('contact-name').value, // Sesuaikan ID input lu
-            email: document.getElementById('contact-email').value, // Sesuaikan ID input lu
-            message: document.getElementById('contact-message').value // Sesuaikan ID input lu
-        };
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
 
-        try {
-            // 3. Kirim via fetch normal tanpa no-cors, karena Apps Script sudah pakai MimeType.TEXT
-            const response = await fetch(API_CONFIG.BASE_URL, {
-                method: "POST",
-                body: JSON.stringify(payload)
-            });
-            
-            const resultText = await response.text();
-            
-            if (resultText === "SUCCESS" || resultText.includes('"status":"success"')) {
-                // Jika suksesnya ternyata karena mendeteksi data duplikat
-                if (resultText.includes("Duplikat")) {
-                    alert('Ulasan/Pesan ini sudah terkirim sebelumnya. Terima kasih!');
-                } else {
-                    // Sukses murni kiriman pertama
-                    alert('Terima kasih! Pesan Anda telah berhasil dikirim. Silakan cek email Anda untuk surat konfirmasi.');
-                }
-                this.reset(); // Kosongkan form setelah sukses
-            } else {
-                alert('Gagal mengirim pesan: ' + resultText);
-            }
+    // 2. Kunci tombol secara fisik dan logika
+    isSubmitting = true;
+    submitBtn.textContent = "Mengirim Pesan...";
+    submitBtn.disabled = true;
 
-        } catch (error) {
-            console.error("Error sending contact data:", error);
-            // Fallback aman: jika network sukses tapi browser telat baca status
-            alert('Pesan Anda sedang diproses, terima kasih!');
-            this.reset();
-        } finally {
-            // 4. Buka kembali kunci tombol setelah semua proses kelar
-            isSubmitting = false;
-            submitBtn.textContent = originalBtnText;
-            submitBtn.disabled = false;
+    const payload = {
+      type: "contact",
+      name: document.getElementById("contact-name").value, // Sesuaikan ID input lu
+      email: document.getElementById("contact-email").value, // Sesuaikan ID input lu
+      message: document.getElementById("contact-message").value, // Sesuaikan ID input lu
+    };
+
+    try {
+      // 3. Kirim via fetch normal tanpa no-cors, karena Apps Script sudah pakai MimeType.TEXT
+      const response = await fetch(API_CONFIG.BASE_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      const resultText = await response.text();
+
+      if (
+        resultText === "SUCCESS" ||
+        resultText.includes('"status":"success"')
+      ) {
+        // Jika suksesnya ternyata karena mendeteksi data duplikat
+        if (resultText.includes("Duplikat")) {
+          Swal.fire({
+            icon: "warning",
+            title: "Pesan Duplikat",
+            text: "Ulasan atau pesan ini sudah terkirim sebelumnya. Terima kasih!",
+            confirmButtonColor: "#3498db",
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Terkirim!",
+            text: "Terima kasih! Pesan Anda telah berhasil dikirim. Silakan cek email Anda untuk surat konfirmasi.",
+            confirmButtonColor: "#2ecc71",
+          });
         }
-    });
+        this.reset(); // Kosongkan form setelah sukses
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Gagal mengirim pesan: " + resultText,
+          footer: '<a href="#">Kenapa masalah ini terjadi?</a>',
+        });
+      }
+    } catch (error) {
+      console.error("Error sending contact data:", error);
+      // Fallback aman: jika network sukses tapi browser telat baca status
+      Swal.fire({
+        icon: "error",
+        title: "Koneksi Terganggu",
+        text: "Pesan Anda sedang diproses, terima kasih!",
+        footer: '<a href="#">Kenapa masalah ini terjadi?</a>',
+      });
+      this.reset();
+    } finally {
+      // 4. Buka kembali kunci tombol setelah semua proses kelar
+      isSubmitting = false;
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    }
+  });
 }
 
 // B. Handle Submit Form Rating
 if (ratingForm) {
-    // Tameng utama di luar event listener untuk mencegah double submit di level logika
-    let isSubmitting = false;
+  // Tameng utama di luar event listener untuk mencegah double submit di level logika
+  let isSubmitting = false;
 
-    ratingForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Jika sedang ada proses kirim yang berjalan, langsung blokir klik susulan!
-        if (isSubmitting) return;
+  ratingForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-        const finalRating = ratingStarsContainer.getAttribute('data-rated');
-        if (finalRating === "0") {
-            ratingMessage.style.color = "#dc2626";
-            ratingMessage.textContent = "Silakan pilih rating bintang terlebih dahulu!";
-            return;
-        }
+    // Jika sedang ada proses kirim yang berjalan, langsung blokir klik susulan!
+    if (isSubmitting) return;
 
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.textContent;
-        
-        // Aktifkan status submitting dan kunci tombol secara fisik
-        isSubmitting = true;
-        submitBtn.textContent = "Mengirim Ulasan...";
-        submitBtn.disabled = true;
+    const finalRating = ratingStarsContainer.getAttribute("data-rated");
+    if (finalRating === "0") {
+      ratingMessage.style.color = "#dc2626";
+      ratingMessage.textContent =
+        "Silakan pilih rating bintang terlebih dahulu!";
+      return;
+    }
 
-        const payload = {
-            type: "rating",
-            name: document.getElementById('reviewer-name').value,
-            company: document.getElementById('reviewer-company').value,
-            review: document.getElementById('reviewer-desc').value,
-            rating: finalRating
-        };
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
 
-        try {
-            // METODE FIRE-AND-FORGET: Kirim ke Google Apps Script tanpa await JSON yang bikin macet
-            fetch(API_CONFIG.BASE_URL, {
-                method: "POST",
-                mode: "no-cors", // bypass CORS agar request aman sampai ke server Google
-                body: JSON.stringify(payload)
-            });
-            
-            // Langsung eksekusi notifikasi sukses tanpa nungguin respons hang dari browser
-            if (parseInt(finalRating) === 5) {
-                alert('Terima kasih! Ulasan bintang 5 Anda telah disimpan dan akan langsung ditampilkan di halaman utama.');
-            } else {
-                alert('Terima kasih atas masukannya! Ulasan Anda telah kami simpan sebagai bahan evaluasi internal perusahaan.');
-            }
-            
-            // Reset form dan bintang-bintang ke kondisi awal
-            this.reset();
-            ratingStarsContainer.setAttribute('data-rated', '0');
-            if (typeof highlightStars === 'function') highlightStars(0);
-            ratingMessage.textContent = "";
-            
-            // Kasih jeda waktu 2 detik sebelum reload data agar Google Sheets selesai menulis data di background
-            if (typeof fetchDataFromCMS === 'function') {
-                setTimeout(async () => {
-                    const freshData = await fetchDataFromCMS();
-                    if (typeof renderContent === 'function') renderContent(freshData);
-                }, 2000);
-            }
+    // Aktifkan status submitting dan kunci tombol secara fisik
+    isSubmitting = true;
+    submitBtn.textContent = "Mengirim Ulasan...";
+    submitBtn.disabled = true;
 
-        } catch (error) {
-            console.error("Error sending rating data:", error);
-            alert('Terjadi kesalahan jaringan saat mengirim ulasan.');
-        } finally {
-            // Setelah seluruh proses kelar, buka kembali kunci tombolnya
-            isSubmitting = false;
-            submitBtn.textContent = originalBtnText;
-            submitBtn.disabled = false;
-        }
-    });
+    const payload = {
+      type: "rating",
+      name: document.getElementById("reviewer-name").value,
+      company: document.getElementById("reviewer-company").value,
+      review: document.getElementById("reviewer-desc").value,
+      rating: finalRating,
+    };
+
+    try {
+      // METODE FIRE-AND-FORGET: Kirim ke Google Apps Script tanpa await JSON yang bikin macet
+      fetch(API_CONFIG.BASE_URL, {
+        method: "POST",
+        mode: "no-cors", // bypass CORS agar request aman sampai ke server Google
+        body: JSON.stringify(payload),
+      });
+
+      // Langsung eksekusi notifikasi sukses tanpa nungguin respons hang dari browser
+      if (parseInt(finalRating) === 5) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Terkirim!",
+            text: "Terima kasih! Ulasan Bintang 5 Anda Telah Berhasil Dikirim.",
+            confirmButtonColor: "#2ecc71",
+          });
+      } else {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Terkirim!",
+            text: "Terima kasih! Ulasan Anda Telah Kami Simpan Sebagai Bahan Evaluasi Internal Perusahaan.",
+            confirmButtonColor: "#2ecc71",
+          });
+      }
+
+      // Reset form dan bintang-bintang ke kondisi awal
+      this.reset();
+      ratingStarsContainer.setAttribute("data-rated", "0");
+      if (typeof highlightStars === "function") highlightStars(0);
+      ratingMessage.textContent = "";
+
+      // Kasih jeda waktu 2 detik sebelum reload data agar Google Sheets selesai menulis data di background
+      if (typeof fetchDataFromCMS === "function") {
+        setTimeout(async () => {
+          const freshData = await fetchDataFromCMS();
+          if (typeof renderContent === "function") renderContent(freshData);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Error sending rating data:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Koneksi Terganggu",
+        text: "Terjadi kesalahan saat memproses data ke server.",
+        footer: '<a href="#">Kenapa masalah ini terjadi?</a>',
+      });
+    } finally {
+      // Setelah seluruh proses kelar, buka kembali kunci tombolnya
+      isSubmitting = false;
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    }
+  });
 }
 
 // --- ACTIVE LINK ON SCROLL ---

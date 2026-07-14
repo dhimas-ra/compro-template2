@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Services - BizCore</title>
+    <title>Our Services</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -33,7 +33,7 @@
   <body>
     <header class="navbar sticky">
       <div class="container nav-container">
-        <a href="index.html" class="logo">Biz<span>Core.</span></a>
+        <a href="index.html" class="logo">Foofoo<span>Fafa.</span></a>
         <nav class="nav-menu">
           <a href="index.html#home" class="nav-link">Home</a>
           <a href="index.html#about" class="nav-link">About</a>
@@ -195,12 +195,186 @@
     <footer>
       <div class="container text-center">
         <p>
-          &copy; 2026 BizCore. All Rights Reserved. Designed Minimally &
+          &copy; 2026 FoofooFafa. All Rights Reserved. Designed Minimally &
           Professionally.
         </p>
       </div>
     </footer>
+    <div
+      id="quoteModal"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+      "
+    >
+      <div
+        style="
+          background-color: #fff;
+          padding: 25px;
+          border-radius: 12px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          position: relative;
+          max-height: 90vh;
+          overflow-y: auto;
+        "
+      >
+        <span
+          onclick="window.closeQuotationModal()"
+          style="
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+          "
+          >&times;</span
+        >
 
+        <h3
+          style="
+            margin-top: 0;
+            color: #1e293b;
+            font-size: 20px;
+            margin-bottom: 5px;
+          "
+        >
+          📊 Minta Penawaran Harga
+        </h3>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px">
+          Dapatkan estimasi biaya terbaik untuk proyek Anda.
+        </p>
+
+        <form id="quotation-form">
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Nama Perusahaan / Instansi:</label
+            >
+            <input
+              type="text"
+              id="quote-company"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Jenis Layanan:</label
+            >
+            <input
+              type="text"
+              id="quote-service"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Estimasi Budget:</label
+            >
+            <input
+              type="text"
+              id="quote-budget"
+              placeholder="Misal: Rp 5.000.000"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Deadline Proyek:</label
+            >
+            <input
+              type="date"
+              id="quote-deadline"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+
+          <div style="margin-bottom: 20px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Detail Proyek:</label
+            >
+            <textarea
+              id="quote-detail"
+              rows="4"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+                resize: vertical;
+              "
+              placeholder="Jelaskan kebutuhan proyek Anda..."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            style="
+              width: 100%;
+              padding: 12px;
+              background: #2563eb;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Kirim Permintaan Penawaran
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="js/function.js"></script>
     <script src="js/script.js"></script>
@@ -235,38 +409,31 @@
       });
 
       // 3. FUNGSI PEMPROSES LINK GOOGLE DRIVE & COMPRESS IMAGE
-      function cleanDriveImageUrl(url) {
-        // 1. FITUR FALLBACK: Jika link kosong, null, undefined, atau hanya spasi
-        if (!url || url.toString().trim() === "") {
-          // Menggunakan gambar dummy placeholder bertema business/tech dari Unsplash
-          return "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=400&q=80";
+      function optimizeDriveImage(url, maxWidth = 600) {
+        if (!url)
+          return "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80"; // Placeholder jika kosong
 
-          // Catatan: Kalau mau pakai gambar lokal dari folder aset lu, tinggal ganti jadi:
-          // return 'assets/img/default-service.jpg';
-        }
-
-        // Pastikan variabel bertipe string agar fungsi .includes() tidak error
-        let urlStr = url.toString().trim();
-
-        // 2. PROSES LINK GOOGLE DRIVE
-        if (urlStr.includes("drive.google.com")) {
+        // Cek apakah ini link Google Drive
+        if (url.includes("drive.google.com")) {
           let fileId = "";
-          if (urlStr.includes("/d/")) {
-            fileId = urlStr.split("/d/")[1].split("/")[0];
-          } else if (urlStr.includes("id=")) {
-            fileId = urlStr.split("id=")[1].split("&")[0];
+
+          // Pola 1: Link sharing biasa (/file/d/FILE_ID/view)
+          if (url.includes("/file/d/")) {
+            fileId = url.split("/file/d/")[1].split("/")[0];
           }
+          // Pola 2: Link lama (id=FILE_ID)
+          else if (url.includes("id=")) {
+            fileId = url.split("id=")[1].split("&")[0];
+          }
+
           if (fileId) {
-            return `https://docs.google.com/uc?export=download&id=${fileId}`;
+            // FIX: Tambahkan $ di {fileId} dan gunakan https:// agar aman saat online
+            return `https://lh3.googleusercontent.com/d/${fileId}=w${maxWidth}`;
           }
         }
 
-        // 3. AUTO COMPRESS UNTUK LINK UNSPLASH JIKA ADA
-        if (urlStr.includes("images.unsplash.com") && !urlStr.includes("q=")) {
-          return `${urlStr}&auto=format&fit=crop&w=400&q=80`;
-        }
-
-        return urlStr;
+        // Jika bukan link drive (misal link unsplash biasa), kembalikan url asli
+        return url;
       }
 
       // 4. FUNGSI RENDER (MENYAMPING & ANIMASI DELAY BERTAHAP)
@@ -294,29 +461,42 @@
 
           // Proses link gambar (Convert GDrive + Compress)
           const gambarRaw =
-            item.image ||
+            item.icon ||
             item["link gambar pelayanan"] ||
             item["Link Gambar Pelayanan"];
-          const gambarFix = cleanDriveImageUrl(gambarRaw);
+          const gambarFix = optimizeDriveImage(gambarRaw, 600);
 
-          // Cetak struktur kartu persis template asli index.html lu
-          // Ganti URL di bawah dengan url pre-filled link Google Form lu sendiri
-          const BASE_GFORM_URL =
-            "https://docs.google.com/forms/d/e/1FAIpQLSeDDCWmzj7bHZ0CDNVCr7_m8VvoKAp3Gs4ODSI4ZZSd_q5ldw/viewform?usp=pp_url";
+          // CARI KODE EVENT LISTENER TOMBOL LU DI PALING BAWAH SERVICE.HTML, LALU UBAH JADI:
+          document.querySelectorAll(".booking-action").forEach((button) => {
+            // Tambahkan style pointer biar user tahu bisa diklik
+            button.style.cursor = "pointer";
 
-          // Gabungkan URL dasar dengan judul layanan (encodeURIComponent agar spasi jadi %20 aman di URL)
-          const gformOrderUrl = BASE_GFORM_URL + encodeURIComponent(judul);
+            button.addEventListener("click", function () {
+              // Mengambil nama layanan secara dinamis dari judul kartu (biasanya di h4 atau h3)
+              // Kita cari text judul di dalam card yang sama
+              const card = this.closest(".service-card") || this.parentElement;
+              const serviceName =
+                card.querySelector("h4")?.textContent ||
+                card.querySelector("h3")?.textContent ||
+                "";
+
+              // Panggil fungsi modal global yang ada di function.js
+              if (window.openQuotationModal) {
+                window.openQuotationModal(serviceName.trim());
+              }
+            });
+          });
 
           const card = `
-  <div class="card service-card" data-aos="fade-up" data-aos-delay="${delay}" style="cursor: pointer;" onclick="window.open('${gformOrderUrl}', '_blank')">
+  <div class="card service-card" data-aos="fade-up" data-aos-delay="${delay}" )">
     <div class="service-img-wrapper">
       <img src="${gambarFix}" alt="${judul}" class="service-card-img" />
     </div>
     <div class="service-card-body">
       <h3>${judul}</h3>
       <p>${deskripsi}</p>
-      <div class="booking-action" style="margin-top: 15px; font-weight: 600; color: #3498db; font-size: 14px;">
-         Minta Penawaran <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+      <div class="booking-action" onclick="openQuotationModal('${item.nama_layanan}')" style="margin-top: 15px; font-weight: 600; color: #3498db; font-size: 14px; cursor: pointer;">
+                        Minta Penawaran <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
       </div>
     </div>
   </div>

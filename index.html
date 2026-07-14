@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern Company Profile</title>
+    <title>Company Profile</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -14,7 +14,7 @@
   <body>
     <header class="navbar">
       <div class="container nav-container">
-        <a href="#" class="logo">Biz<span>Core.</span></a>
+        <a href="#" class="logo">Foofoo<span>Fafa.</span></a>
         <nav class="nav-menu">
           <a href="#home" class="nav-link active">Home</a>
           <a href="#about" class="nav-link">About</a>
@@ -346,15 +346,20 @@
               Punya pertanyaan atau ingin mulai berkolaborasi? Hubungi kami
               melalui detail di bawah ini atau isi formulir.
             </p>
-            <div class="info-item">
-              <i class="fas fa-envelope"></i>
-              <p>info@bizcore.com</p>
+
+            <div
+              class="info-item"
+              href="mailto:www@gmail.com?subject=Tanya%20Mengenai%20Layanan"
+              style="text-decoration: none; cursor: pointer; color: #475569"
+            >
+              <i class="fas fa-envelope" style="color: #3b82f6"></i>
+              <p>email@gmail.com</p>
             </div>
-            <div class="info-item">
-              <i class="fas fa-phone"></i>
-              <p>+62 812 3456 7890</p>
+            <div class="info-item" href="https://wa.me/6281234567890?text=Halo%20Admin" target="_blank" rel="noopener noreferrer" style="text-decoration: none; cursor: pointer; color: #475569;">
+              <i class="fab fa-whatsapp" style="color: #25d366;"></i>
+              <p>+62 812-3456-7890</p>
             </div>
-            <div class="info-item">
+            <div class="info-item" href="https://maps.app.goo.gl/ContohLinkLokasiLu" target="_blank" rel="noopener noreferrer" style="text-decoration: none; cursor: pointer; color: #475569;">
               <i class="fas fa-map-marker-alt"></i>
               <p>Jl. Jenderal Sudirman No. 123, Jakarta, Indonesia</p>
             </div>
@@ -362,13 +367,28 @@
           <div class="contact-form" data-aos="fade-left">
             <form id="feedback-form">
               <div class="form-group">
-                <input type="text" id="contact-name" placeholder="Nama Lengkap" required />
+                <input
+                  type="text"
+                  id="contact-name"
+                  placeholder="Nama Lengkap"
+                  required
+                />
               </div>
               <div class="form-group">
-                <input type="email" id="contact-email" placeholder="Email Anda" required />
+                <input
+                  type="email"
+                  id="contact-email"
+                  placeholder="Email Anda"
+                  required
+                />
               </div>
               <div class="form-group">
-                <textarea id="contact-message" placeholder="Pesan Anda" rows="5" required></textarea>
+                <textarea
+                  id="contact-message"
+                  placeholder="Pesan Anda"
+                  rows="5"
+                  required
+                ></textarea>
               </div>
               <button type="submit" class="btn btn-primary w-100">
                 Kirim Pesan
@@ -382,12 +402,181 @@
     <footer>
       <div class="container text-center">
         <p>
-          &copy; 2026 BizCore. All Rights Reserved. Designed Minimally &
+          &copy; 2026 FoofooFafa. All Rights Reserved. Designed Minimally &
           Professionally.
         </p>
       </div>
     </footer>
 
+    <div
+      id="quoteModal"
+      style="
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+      "
+    >
+      <div
+        style="
+          background-color: #fff;
+          padding: 25px;
+          border-radius: 12px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+          position: relative;
+          max-height: 90vh;
+          overflow-y: auto;
+        "
+      >
+        <span
+          onclick="closeQuotationModal()"
+          style="
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+          "
+          >&times;</span
+        >
+        <h3 style="margin-top: 0; color: #1e293b">📊 Minta Penawaran Harga</h3>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px">
+          Dapatkan estimasi biaya terbaik untuk proyek Anda.
+        </p>
+
+        <form id="quotation-form">
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Nama Perusahaan / Instansi:</label
+            >
+            <input
+              type="text"
+              id="quote-company"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+          <!-- <div style="margin-bottom: 15px;">
+                    <label style="font-size: 14px; font-weight: 600; color: #475569;">Jenis Layanan:</label>
+                    <select id="quote-service" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; background-color: #fff;">
+                        <option value="">-- Pilih Layanan --</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                    </select>
+                </div> -->
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Jenis Layanan:</label
+            >
+            <input
+              type="text"
+              id="quote-service"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Estimasi Budget:</label
+            >
+            <input
+              type="text"
+              id="quote-budget"
+              placeholder="Misal: Rp 5.000.000"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 15px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Deadline Proyek:</label
+            >
+            <input
+              type="date"
+              id="quote-deadline"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+          <div style="margin-bottom: 20px">
+            <label style="font-size: 14px; font-weight: 600; color: #475569"
+              >Detail Proyek:</label
+            >
+            <textarea
+              id="quote-detail"
+              rows="4"
+              required
+              style="
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                box-sizing: border-box;
+                resize: vertical;
+              "
+              placeholder="Jelaskan kebutuhan proyek Anda..."
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            style="
+              width: 100%;
+              padding: 12px;
+              background: #2563eb;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              font-weight: 600;
+              cursor: pointer;
+            "
+          >
+            Kirim Permintaan Penawaran
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="js/script.js"></script>
     <script src="js/function.js"></script>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Portfolio - BizCore</title>
+    <title>Our Portfolio</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -33,7 +33,7 @@
   <body>
     <header class="navbar sticky">
       <div class="container nav-container">
-        <a href="index.html" class="logo">Biz<span>Core.</span></a>
+        <a href="index.html" class="logo">Foofoo<span>Fafa.</span></a>
         <nav class="nav-menu">
           <a href="index.html#home" class="nav-link">Home</a>
           <a href="index.html#about" class="nav-link">About</a>
@@ -130,12 +130,12 @@
     <footer>
       <div class="container text-center">
         <p>
-          &copy; 2026 BizCore. All Rights Reserved. Designed Minimally &
+          &copy; 2026 FoofooFafa. All Rights Reserved. Designed Minimally &
           Professionally.
         </p>
       </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="js/script.js"></script>
     <script src="js/function.js"></script>
@@ -168,33 +168,31 @@
       });
 
       // 3. Fungsi Universal: GDrive Converter + Compress + Fallback Gambar Kosong
-      function cleanDriveImageUrl(url) {
-        // Fallback jika admin lupa isi link gambar di form portfolio
-        if (!url || url.toString().trim() === "") {
-          return "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80";
-        }
+      function optimizeDriveImage(url, maxWidth = 600) {
+        if (!url)
+          return "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80"; // Placeholder jika kosong
 
-        let urlStr = url.toString().trim();
-
-        // Convert Link Google Drive biasa ke Direct Download Link
-        if (urlStr.includes("drive.google.com")) {
+        // Cek apakah ini link Google Drive
+        if (url.includes("drive.google.com")) {
           let fileId = "";
-          if (urlStr.includes("/d/")) {
-            fileId = urlStr.split("/d/")[1].split("/")[0];
-          } else if (urlStr.includes("id=")) {
-            fileId = urlStr.split("id=")[1].split("&")[0];
+
+          // Pola 1: Link sharing biasa (/file/d/FILE_ID/view)
+          if (url.includes("/file/d/")) {
+            fileId = url.split("/file/d/")[1].split("/")[0];
           }
+          // Pola 2: Link lama (id=FILE_ID)
+          else if (url.includes("id=")) {
+            fileId = url.split("id=")[1].split("&")[0];
+          }
+
           if (fileId) {
-            return `https://docs.google.com/uc?export=download&id=${fileId}`;
+            // FIX: Tambahkan $ di {fileId} dan gunakan https:// agar aman saat online
+            return `https://lh3.googleusercontent.com/d/${fileId}=w${maxWidth}`;
           }
         }
 
-        // Auto Compress jika gambarnya dari Unsplash bawaan template
-        if (urlStr.includes("images.unsplash.com") && !urlStr.includes("q=")) {
-          return `${urlStr}&auto=format&fit=crop&w=500&q=80`;
-        }
-
-        return urlStr;
+        // Jika bukan link drive (misal link unsplash biasa), kembalikan url asli
+        return url;
       }
 
       // 4. Fungsi Render Portfolio (Menyamping, Delay Dipercepat, Struktur Overlay Pas)
@@ -225,10 +223,13 @@
             item.image ||
             item["link gambar portfolio"] ||
             item["Link Gambar Portfolio"];
-          const gambarFix = cleanDriveImageUrl(gambarRaw);
+          const gambarFix = optimizeDriveImage(gambarRaw, 600);
+
+          // === 1. AMBIL DATA LINK PORTFOLIO DARI SHEETS ===
+      const projectLink = item.project_url || item.link || item["Link Project"] || '';
 
           // Cetak struktur sesuai template HTML asli lu
-          const card = `
+          const itemContent = `
                 <div class="portfolio-item" data-aos="zoom-in" data-aos-delay="${delay}">
                     <img src="${gambarFix}" alt="${judul}">
                     <div class="portfolio-overlay">
@@ -237,6 +238,20 @@
                     </div>
                 </div>
             `;
+
+          // === 2. LOGIKA KONDISIONAL PEMBUNGKUS LINK ===
+          let card = "";
+          if (projectLink) {
+            // Jika ada link, bungkus total kontennya
+            card = `
+            <a href="${projectLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: block; color: inherit;">
+                ${itemContent}
+            </a>
+        `;
+          } else {
+            // Jika kosong, pakai konten normal bawaan template
+            card = itemContent;
+          }
           container.insertAdjacentHTML("beforeend", card);
         });
 
